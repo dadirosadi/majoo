@@ -58,13 +58,33 @@ const todoReducer = (state = defaultState, action: any) => {
             console.log("Action ", action.payload);
             return {
                 ...state,
-                create: false,
+                update: false,
                 data: updateData(state.data, action.payload)
             };
         case "UPDATE_TODO_FAILED":
             return {
                 ...state,
                 update: false,
+            }
+
+
+        case "DELETE_TODO":
+            return {
+                ...state,
+                delete: true,
+            };
+
+        case "DELETE_TODO_SUCCESS":
+            console.log("Delete ", action.payload);
+            return {
+                ...state,
+                delete: false,
+                data: state.data.filter((data: any) => data.id !== action.payload)
+            };
+        case "DELETE_TODO_FAILED":
+            return {
+                ...state,
+                delete: false,
             }
         default:
             return state;

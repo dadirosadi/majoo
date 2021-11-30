@@ -5,7 +5,7 @@ import { createTodo, updateTodo } from "./../../redux/todo/todo.action";
 
 const FormTodo = (props: any) => {
     const dispatch = useDispatch();
-    const { id, title, description, createdAt, status } = props.data;
+    const { id, title, description, status } = props.data;
     const titleDefault = title;
     const descriptionDefault = description;
     const statusDefalt = status || 0;
@@ -15,7 +15,7 @@ const FormTodo = (props: any) => {
 
     const CreateTodos = (e: any) => {
         e.preventDefault();
-        if (props.status === "update") {
+        if (props.status === "Update") {
             dispatch(updateTodo(id, {
                 title: titles,
                 description: descriptions,
@@ -75,7 +75,6 @@ const FormTodo = (props: any) => {
                 name="status"
                 type="select"
                 value={statuss}
-                defaultValue={status}
                 onChange={(e) => setStatus(parseInt(e.target.value))}
             >
                 <option value={0}>
@@ -87,8 +86,8 @@ const FormTodo = (props: any) => {
             </Input>
         </FormGroup>
         {' '}
-        <Button type="submit">
-            Create
+        <Button color="primary" type="submit">
+            {props.status} todo
         </Button>
     </Form>
 }

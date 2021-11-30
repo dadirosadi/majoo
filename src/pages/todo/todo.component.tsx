@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Spinner, Row, Col, Button, Modal, ModalHeader, ModalBody } from "reactstrap";
-import { getTodo } from "../../redux/todo/todo.action";
+import { getTodo, deleteTodo } from "../../redux/todo/todo.action";
 import { Todo } from "../../model/todo";
 import Cards from "../../components/card/card.component";
 import Form from "../../components/form/form.component";
@@ -14,7 +14,7 @@ const Todos = (props: any) => {
     })
     const [isOpen, setIsOpen] = useState(false);
     const [detail, setDetail] = useState({});
-    const [status, setStatus] = useState("add");
+    const [status, setStatus] = useState("Create");
 
     useEffect(() => {
         dispatch(getTodo());
@@ -23,13 +23,12 @@ const Todos = (props: any) => {
     const getDetail = (data: Object) => {
         setIsOpen(true);
         setDetail(data)
-        setStatus("update")
+        setStatus("Update")
     }
 
-
     return !todo?.loading ? <Container>
-        <Button className="mt-3" onClick={() => {
-            setStatus("add")
+        <Button color="primary" className="mt-3" onClick={() => {
+            setStatus("Create")
             setIsOpen(true)
         }}>Create Todo</Button>
         <Row>
@@ -38,7 +37,7 @@ const Todos = (props: any) => {
                 <h5 className="my-3">On Progress</h5>
                 {
                     todo?.data?.filter((item: Todo) => item.status == "0").sort(function (a: Todo, b: Todo) { return new Date(`${a.createdAt}`).getTime() - new Date(`${b.createdAt}`).getTime() }).map((todo: Todo) => {
-                        return <div key={`${todo.id}`}><Cards data={todo} getDetail={getDetail} /></div>
+                        return <div key={`${todo.id}`}><Cards data={todo} getDetail={getDetail} delete={(id: Number) => { dispatch(deleteTodo(id)) }} /></div>
                     })
                 }
             </Col>
@@ -63,10 +62,13 @@ const Todos = (props: any) => {
                 setIsOpen(false)
                 setDetail({})
             }}>
-                Create Todo
+                {status} Todo
             </ModalHeader>
             <ModalBody>
-                {status === "update" && <Cards data={detail} />}
+                {status === "Update" && <Cards data={detail} delete={(id: Number) => {
+                    dispatch(deleteTodo(id))
+                    setIsOpen(false)
+                }} />}
                 <Form data={detail} status={status} setIsOpen={() => {
                     setIsOpen(false)
                     setDetail({})
