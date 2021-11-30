@@ -5,7 +5,7 @@ const Cards = (props: any) => {
     return <Card className="my-2 p-1">
         <Row>
             <Col lg={12}>
-                <CardBody style={{ cursor: "pointer" }}>
+                <CardBody style={{ cursor: "pointer" }} onClick={() => props.getDetail(props.data)}>
                     <CardTitle tag="h5" >
                         {title} <span >({status === 0 ? "OnProgress" : "Done"})</span>
                     </CardTitle>
@@ -13,7 +13,7 @@ const Cards = (props: any) => {
                         {description}
                     </CardText>
                     <CardText>
-                        {createdAt}
+                        {new Date(createdAt).toLocaleDateString()}
                     </CardText>
                 </CardBody>
             </Col>
