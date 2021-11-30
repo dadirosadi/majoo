@@ -32,7 +32,6 @@ const todoReducer = (state = defaultState, action: any) => {
             };
 
         case "CREATE_TODO_SUCCESS":
-            console.log("Action ", action.payload);
             return {
                 ...state,
                 create: false,
@@ -55,7 +54,6 @@ const todoReducer = (state = defaultState, action: any) => {
             };
 
         case "UPDATE_TODO_SUCCESS":
-            console.log("Action ", action.payload);
             return {
                 ...state,
                 update: false,
@@ -75,7 +73,6 @@ const todoReducer = (state = defaultState, action: any) => {
             };
 
         case "DELETE_TODO_SUCCESS":
-            console.log("Delete ", action.payload);
             return {
                 ...state,
                 delete: false,
